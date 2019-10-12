@@ -1,0 +1,8 @@
+FROM ubuntu:disco
+
+RUN ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime \
+    && echo "Etc/UTC" > /etc/timezone \
+    && apt update \
+    && apt upgrade -y \
+    && apt install texlive-full -y \
+    && rm -rf /var/lib/apt/lists/*
