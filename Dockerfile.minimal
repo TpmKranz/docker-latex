@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+ADD texlive.profile /texlive.profile
+
+RUN apk update \
+    && apk add curl tar xz gzip perl gnupg \
+    && gpg --receive-keys 4CE1877E19438C70 \
+    && export MIRROR=$(curl -s -I -w '%{redirect_url}' -o /dev/null http://mirror.ctan.org/systems/texlive/tlnet/) \
+    && curl -O ${MIRROR}/install-tl-unx.tar.gz{,.sha512,.sha512.asc} \
+    && gpg --verify install-tl-unx.tar.gz.sha512.asc \
+    && sha512sum -c install-tl-unx.tar.gz.sha512 \
+    && tar -xzvf install-tl-unx.tar.gz \
+    && cd install-tl-* \
+    && ./install-tl -force-arch=x86_64-linuxmusl -profile=/texlive.profile \
+    && cd .. \
+    && rm -rf install-tl*

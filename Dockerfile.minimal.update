@@ -1,0 +1,6 @@
+FROM tpmkranz/latex:minimal
+
+RUN apk update \
+    && apk upgrade \
+    && tlmgr update -self \
+    && tlmgr update -all

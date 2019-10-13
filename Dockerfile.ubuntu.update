@@ -1,0 +1,5 @@
+FROM tpmkranz/latex:ubuntu
+
+RUN apt update \
+    && apt full-upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
